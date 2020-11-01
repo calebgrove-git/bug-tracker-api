@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const bcrypt = require('bcrypt')
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -10,6 +11,7 @@ const bugsRouter = require('./bugs/bugs-router');
 const usersRouter = require('./users/users-router')
 app.use(morgan(morganOption));
 app.use(helmet());
+app.use(bcrypt())
 app.use(cors());
 
 app.use(function errorHandler(error, req, res, next) {
