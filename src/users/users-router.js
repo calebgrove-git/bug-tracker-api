@@ -62,7 +62,7 @@ usersRouter
   .post( async (req, res, next) => {
     try{
      if(await bcrypt.compare(req.body.password, user.password)){
-       res.send('Success')
+       res.send(serializeUser(user))
      } else{
        res.send('Not allowed')
      }
