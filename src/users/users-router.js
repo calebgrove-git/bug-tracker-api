@@ -21,7 +21,7 @@ usersRouter
       const { email, password, admin, company } = req.body;
       const salt = await bcrypt.genSalt()
       const hashedPass = await bcrypt.hash(password,salt)
-      const newUser = {  email, hashedPass, admin, company };
+      const newUser = {  email, password: hashedPass, admin, company };
       for (const [key, value] of Object.entries(newUser)) {
         if (value == null) {
           return res.status(400).json({
