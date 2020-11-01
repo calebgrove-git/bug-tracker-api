@@ -1,8 +1,8 @@
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
+const bcrypt = require('bcrypt')
 const UserService = require('./users-service');
-const { brotliCompressSync } = require('zlib');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
