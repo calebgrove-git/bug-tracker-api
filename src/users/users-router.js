@@ -4,6 +4,7 @@ const xss = require('xss');
 const bcrypt = require('bcrypt')
 const UserService = require('./users-service');
 
+
 const usersRouter = express.Router();
 const jsonParser = express.json();
 
@@ -46,30 +47,27 @@ usersRouter
 
 usersRouter
   .route('/login')
-  .all((req, res, next) => {
-    UserService.getById(req.app.get('db'), req.body.email, req.body.password)
+  .post(jsonParser,async (req, res, next) => {
+    const {email, password} = req.body
+    const unautorizedUser = {email, password}
+    UserService.getById(req.app.get('db'), unautorizedUser.email)
       .then((user) => {
         if (!user) {
           return res.status(404).json({
             error: { message: `User doesn't exist` },
-          });
+          })
         }
-        res.user = user;
-        next();
+        return user
       })
-      .catch(next);
-  })
-  .post( async (req, res, next) => {
-    try{
-     if(await bcrypt.compare(req.body.password, user.password)){
-       res.send(serializeUser(user))
-     } else{
-       res.send('Not allowed')
-     }
-    }
-    catch{
-      res.status(500).send()
-    }
+      .then((user)=>{
+       const bool = bcrypt.compare(unautorizedUser.password, user.password)
+       return {bool, user}
+      })
+      .then((response)=>{
+        if(response.bool){res.json(serializeUser(response.user))}
+        next()
+      })
+      .catch(next)
   })
   
   

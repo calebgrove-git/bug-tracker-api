@@ -12,8 +12,8 @@ const UsersService = {
           return rows[0];
         });
     },
-    getById(knex, email, password) {
-      return knex.from('users').select('*').where({ email,password }).first();
+    getById(knex, email) {
+      return knex.from('users').select('*').where({ email }).first();
     },
   
     deleteUser(knex, id) {

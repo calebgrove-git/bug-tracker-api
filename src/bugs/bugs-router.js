@@ -117,7 +117,6 @@ bugsRouter
 bugsRouter
 .route('/get/:company')
 .get((req, res, next) => {
-console.log(req.params.company)
   BugsService.getAllBugs(req.app.get('db'), req.params.company)
     .then((bugs) => {
       res.json(bugs.map(serializeBug));
