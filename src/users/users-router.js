@@ -1,8 +1,10 @@
+require('dotenv').config()
 const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const bcrypt = require('bcrypt')
 const UserService = require('./users-service');
+const jwt = require('jsonwebtoken')
 
 
 const usersRouter = express.Router();
@@ -64,7 +66,9 @@ usersRouter
        return {bool, user}
       })
       .then((response)=>{
-        if(response.bool){res.json(serializeUser(response.user))}
+        const user = serializeUser(response.user)
+        if(response.bool){
+          res.json(user) }
         next()
       })
       .catch(next)
