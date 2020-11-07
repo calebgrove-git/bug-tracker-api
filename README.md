@@ -36,7 +36,7 @@ company : string : required
 #### /:id
 - Delete reqests delete specified bug   
 - Patch requests update specified bug  
-Body
+Body  
 name : string   
 details : string   
 steps : string  
